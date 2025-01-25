@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
 import { NgForOf, NgIf } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, NgForm } from '@angular/forms';
 
 import { RegisterData } from '../../interfaces/register-data.interface';
-import {AuthService} from '../../services/auth.service';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-header',
@@ -23,7 +23,7 @@ export class HeaderComponent {
     password: ''
   };
 
-  errorMessage: string[] = [];
+  errorMessages: string[] = [];
 
   constructor(
     private authService: AuthService
@@ -33,7 +33,7 @@ export class HeaderComponent {
     const regex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 
     if (this.data.email !== '' && !regex.test(this.data.email)) {
-      this.errorMessage.push('Veuillez entrer une adresse email valide.');
+      this.errorMessages.push('Veuillez entrer une adresse email valide.');
     }
   }
 
@@ -51,11 +51,27 @@ export class HeaderComponent {
       .map(criteria => criteria.message);
 
     if (errors.length > 0) {
-      this.errorMessage.push(
+      this.errorMessages.push(
         `Le mot de passe doit contenir : ${errors.join(', ')}.`
       );
     }
   }
 
+  onSubmit(register: NgForm) {
+    this.errorMessages = [];
+
+    if (register.valid && this.errorMessages.length === 0) {
+      this.authService.register(this.data).subscribe({
+        next: (response) => {
+          console.log(response);
+        },
+        error: (err) => {
+          console.log('Erreur lors de l’inscription :', err);
+        }
+      });
+    } else {
+      this.errorMessages.push('Veuillez remplir tous les champs.');
+    }
+  }
 
 }

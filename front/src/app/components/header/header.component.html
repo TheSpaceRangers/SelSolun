@@ -2,7 +2,7 @@
   <div class="card shadow-lg p-4" style="max-width: 500px; width: 100%; border-radius: 15px;">
     <h1 class="text-center text-primary mb-4">Inscription</h1>
 
-    <form (ngSubmit)="onSubmit(registerForm)" #registerForm="ngForm">
+    <form (ngSubmit)="onSubmit(register)" #register="ngForm">
       <!-- Nom -->
       <div class="mb-3">
         <label for="username" class="form-label">Nom</label>
@@ -14,9 +14,9 @@
             type="text"
             class="form-control"
             id="username"
+            name="username"
             placeholder="Nom"
             [(ngModel)]="data.username"
-            name="username"
             required
           />
         </div>
@@ -34,8 +34,9 @@
             class="form-control"
             id="email"
             placeholder="Email"
-            [(ngModel)]="data.email"
             name="email"
+            [(ngModel)]="data.email"
+            (blur)="validateEmail()"
             required
           />
         </div>
@@ -52,9 +53,10 @@
             type="password"
             class="form-control"
             id="password"
+            name="password"
             placeholder="Mot de passe"
-            [(ngModel)]="data.password_hash"
-            name="password_hash"
+            [(ngModel)]="data.password"
+            (blur)="validatePassword()"
             required
           />
         </div>
