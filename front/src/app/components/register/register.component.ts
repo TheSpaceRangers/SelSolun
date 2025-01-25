@@ -62,8 +62,6 @@ export class RegisterComponent {
   }
 
   onSubmit(register: NgForm) {
-    this.errorMessages = [];
-
     if (register.valid && this.errorMessages.length === 0) {
       this.authService.register(this.data).subscribe({
         next: (response) => {
@@ -74,7 +72,7 @@ export class RegisterComponent {
         }
       });
     } else {
-      this.errorMessages.push('Veuillez remplir tous les champs.');
+      this.errorMessages.length === 0 ? this.errorMessages.push('Veuillez remplir tous les champs.') : null;
     }
   }
 
