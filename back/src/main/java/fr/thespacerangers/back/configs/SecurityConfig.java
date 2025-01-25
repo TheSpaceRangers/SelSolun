@@ -58,8 +58,6 @@ public class SecurityConfig {
         config.setAllowCredentials(true);
         config.setMaxAge(3600L);
 
-        System.out.println(config.getAllowedOrigins());
-
         source.registerCorsConfiguration("/**", config);
         return source;
     }
