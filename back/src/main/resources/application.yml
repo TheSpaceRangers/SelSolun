@@ -1,0 +1,21 @@
+server:
+  port: ${APP_PORT:8080}
+
+spring:
+  application:
+    name: ${APP_NAME:api-selsolun}
+
+  datasource:
+    url: ${DATA_URL:jdbc:mysql://192.168.1.101:3306/crypto_app}
+    username: ${DATA_USERNAME:root}
+    password: ${DATE_PASSWORD:root_password}
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: ${DATA_DDL_AUTO:none}
+    show-sql: ${DATA_SHOW_SQL:false}
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL8Dialect
+        format_sql: true
