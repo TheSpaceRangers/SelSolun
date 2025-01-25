@@ -75,5 +75,4 @@ export class RegisterComponent {
       this.errorMessages.length === 0 ? this.errorMessages.push('Veuillez remplir tous les champs.') : null;
     }
   }
-
 }
