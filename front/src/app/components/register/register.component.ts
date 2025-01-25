@@ -13,10 +13,10 @@ import { AuthService } from '../../services/auth.service';
     NgIf,
     NgForOf
   ],
-  templateUrl: './header.component.html',
-  styleUrl: './header.component.css'
+  templateUrl: './register.component.html',
+  styleUrl: './register.component.css'
 })
-export class HeaderComponent {
+export class RegisterComponent {
   data:RegisterData = {
     username: '',
     email: '',
@@ -30,6 +30,8 @@ export class HeaderComponent {
   ) { }
 
   validateEmail() {
+    this.errorMessages = [];
+
     const regex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 
     if (this.data.email !== '' && !regex.test(this.data.email)) {
@@ -38,6 +40,8 @@ export class HeaderComponent {
   }
 
   validatePassword() {
+    this.errorMessages = [];
+
     const criteria = [
       { regex: /.{12,}/, message: '12 caractères minimum' },
       { regex: /[a-z]/, message: 'une lettre minuscule' },
