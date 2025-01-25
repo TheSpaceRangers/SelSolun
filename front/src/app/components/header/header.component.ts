@@ -37,5 +37,25 @@ export class HeaderComponent {
     }
   }
 
+  validatePassword() {
+    const criteria = [
+      { regex: /.{12,}/, message: '12 caractères minimum' },
+      { regex: /[a-z]/, message: 'une lettre minuscule' },
+      { regex: /[A-Z]/, message: 'une lettre majuscule' },
+      { regex: /\d/, message: 'un chiffre' },
+      { regex: /[^a-zA-Z0-9]/, message: 'un caractère spécial (ex. !@#$%^&*())' }
+    ];
+
+    const errors = criteria
+      .filter(criteria => !criteria.regex.test(this.data.password))
+      .map(criteria => criteria.message);
+
+    if (errors.length > 0) {
+      this.errorMessage.push(
+        `Le mot de passe doit contenir : ${errors.join(', ')}.`
+      );
+    }
+  }
+
 
 }
