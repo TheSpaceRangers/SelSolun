@@ -21,11 +21,15 @@ export class AuthService {
       this.api_url + 'register',
       data,
       {
+        headers: {
+          'Content-Type': 'application/json'
+        },
         responseType: 'text',
         observe: 'response'
       }
     ).pipe(
       catchError(error => {
+        console.error('Erreur dans le service:', error);
         return throwError(() => new Error(error.error?.error_message || 'Une erreur inattendue s’est produite.'));
       })
     );
