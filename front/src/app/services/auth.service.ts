@@ -10,7 +10,7 @@ import { RegisterData } from '../interfaces/register-data.interface';
   providedIn: 'root'
 })
 export class AuthService {
-  private api_url: string = environment.api_url + 'api/auth/';
+  private api_url: string = environment.api_url + 'api/v1/auth/';
 
   constructor(
     private http: HttpClient
