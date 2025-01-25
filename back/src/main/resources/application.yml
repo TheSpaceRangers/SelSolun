@@ -8,7 +8,7 @@ spring:
   datasource:
     url: ${DATA_URL:jdbc:mysql://192.168.1.101:3306/crypto_app}
     username: ${DATA_USERNAME:root}
-    password: ${DATE_PASSWORD:root_password}
+    password: ${DATA_PASSWORD:root_password}
     driver-class-name: com.mysql.cj.jdbc.Driver
 
   jpa:
@@ -17,5 +17,9 @@ spring:
     show-sql: ${DATA_SHOW_SQL:false}
     properties:
       hibernate:
-        dialect: org.hibernate.dialect.MySQL8Dialect
+        dialect: org.hibernate.dialect.MySQLDialect
         format_sql: true
+
+application:
+  security:
+    allowed-origins: http://localhost:4200

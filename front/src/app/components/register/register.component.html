@@ -1,0 +1,78 @@
+<div class="container d-flex justify-content-center align-items-center vh-100">
+  <div class="card shadow-lg p-4" style="max-width: 500px; width: 100%; border-radius: 15px;">
+    <h1 class="text-center text-primary mb-4">Inscription</h1>
+
+    <form (ngSubmit)="onSubmit(register)" #register="ngForm">
+      <!-- Nom -->
+      <div class="mb-3">
+        <label for="username" class="form-label">Nom</label>
+        <div class="input-group">
+          <span class="input-group-text">
+            <i class="bi bi-person"></i>
+          </span>
+          <input
+            type="text"
+            class="form-control"
+            id="username"
+            name="username"
+            placeholder="Nom"
+            [(ngModel)]="data.username"
+            required
+          />
+        </div>
+      </div>
+
+      <!-- Email -->
+      <div class="mb-3">
+        <label for="email" class="form-label">Email</label>
+        <div class="input-group">
+          <span class="input-group-text">
+            <i class="bi bi-envelope"></i>
+          </span>
+          <input
+            type="email"
+            class="form-control"
+            id="email"
+            placeholder="Email"
+            name="email"
+            [(ngModel)]="data.email"
+            (blur)="validateEmail()"
+            required
+          />
+        </div>
+      </div>
+
+      <!-- Mot de passe -->
+      <div class="mb-3">
+        <label for="password" class="form-label">Mot de passe</label>
+        <div class="input-group">
+          <span class="input-group-text">
+            <i class="bi bi-lock"></i>
+          </span>
+          <input
+            type="password"
+            class="form-control"
+            id="password"
+            name="password"
+            placeholder="Mot de passe"
+            [(ngModel)]="data.password"
+            (blur)="validatePassword()"
+            required
+          />
+        </div>
+      </div>
+
+      <!-- Erreurs -->
+      <div *ngIf="errorMessages.length > 0" class="alert alert-danger">
+        <ul class="mb-0">
+          <li *ngFor="let message of errorMessages">{{ message }}</li>
+        </ul>
+      </div>
+
+      <!-- Bouton -->
+      <button type="submit" class="btn btn-primary w-100 mt-3">
+        S'inscrire
+      </button>
+    </form>
+  </div>
+</div>

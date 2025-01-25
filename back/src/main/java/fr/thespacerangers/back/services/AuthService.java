@@ -27,8 +27,6 @@ public class AuthService implements IAuthService {
         if (this.userRepository.existsByEmail(request.email()))
             throw new EntityAlreadyExistsException("error.user.already-exists");
 
-        System.out.println(request);
-
         final User user = User.builder()
                 .username(request.username())
                 .email(request.email())
