@@ -29,5 +29,13 @@ export class HeaderComponent {
     private authService: AuthService
   ) { }
 
+  validateEmail() {
+    const regex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+
+    if (this.data.email !== '' && !regex.test(this.data.email)) {
+      this.errorMessage.push('Veuillez entrer une adresse email valide.');
+    }
+  }
+
 
 }
