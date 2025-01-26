@@ -1,6 +1,7 @@
 package fr.thespacerangers.back.services;
 
 import fr.thespacerangers.back.dto.auth.LoginRequest;
+import fr.thespacerangers.back.dto.auth.LoginResponse;
 import fr.thespacerangers.back.dto.auth.RegisterRequest;
 import fr.thespacerangers.back.entities.User;
 import fr.thespacerangers.back.exeptions.EntityAlreadyExistsException;
@@ -53,7 +54,7 @@ public class AuthService implements IAuthService {
     }
 
     @Override
-    public String login(LoginRequest request) {
+    public LoginResponse login(LoginRequest request) {
         this.userRepository.findByEmail(request.email())
                 .orElseThrow(() -> new InvalidCredentialsException("error.authentication.invalid-credentials"));
 
@@ -67,7 +68,9 @@ public class AuthService implements IAuthService {
 
             SecurityContextHolder.getContext().setAuthentication(authentication);
 
-            return this.jwtService.generateToken(this.userDetailsService.loadUserByUsername(request.email()));
+            return LoginResponse.builder()
+                    .token(this.jwtService.generateToken(this.userDetailsService.loadUserByUsername(request.email())))
+                    .build();
         } catch (BadCredentialsException e) {
             throw new InvalidCredentialsException("error.authentication.invalid-credentials");
         }
