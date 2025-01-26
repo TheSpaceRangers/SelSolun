@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import {HttpClient, HttpResponse} from '@angular/common/http';
 
 import { BehaviorSubject, catchError, Observable, throwError } from 'rxjs';
 
@@ -38,17 +38,20 @@ export class AuthService {
     );
   }
 
-  login(data: LoginData) {
-    return this.http.post(
+  login(data: LoginData): Observable<HttpResponse<{ token: string }>> {
+    return this.http.post<{ token: string }>(
       `${this.api_url}/login`,
       data,
       {
-        responseType: 'text',
         observe: 'response'
       }
     ).pipe(
       catchError(error => {
-        return throwError(() => new Error(error.error?.error_message || 'Une erreur inattendue s’est produite.'));
+        return throwError(() => ({
+          status: error.status,
+          message: error.error || 'Une erreur inattendue s’est produite.',
+          fullError: error
+        }));
       })
     );
   }
