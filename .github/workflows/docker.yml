@@ -71,6 +71,6 @@ jobs:
           DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
           DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
         run: |
-          ./gradlew bootBuildImage --imageName=${{ secrets.DOCKER_USERNAME }}/selsolun-back:latest
+          ./gradlew bootBuildImage
 
 # TEST
