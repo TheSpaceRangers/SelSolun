@@ -11,7 +11,7 @@ on:
 jobs:
   build-angular:
     name: Build and Publish Angular Docker Image
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     steps:
       # Étape 1 : Checkout du code
       - name: Checkout code
@@ -47,5 +47,30 @@ jobs:
         run: |
           docker build -t ${{ secrets.DOCKER_USERNAME }}/selsolun-front:latest ./front
           docker push ${{ secrets.DOCKER_USERNAME }}/selsolun-front:latest
+
+  build-spring-boot:
+    name: Build and Publish Spring Boot Docker Image
+    runs-on: ubuntu-24.04
+
+    steps:
+      # Étape 1 : Checkout du code
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      # Étape 2 : Configurer JDK pour Gradle
+      - name: Setup JDK
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'zulu'
+          java-version: '17'
+
+      # Étape 3 : Construire et publier l'image Docker avec Buildpacks
+      - name: Build and Push Spring Boot Docker Image
+        working-directory: ./back
+        env:
+          DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+          DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+        run: |
+          ./gradlew bootBuildImage --imageName=${{ secrets.DOCKER_USERNAME }}/selsolun-back:latest
 
 # TEST
