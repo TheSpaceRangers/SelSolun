@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { NgForOf, NgIf } from '@angular/common';
 import { FormsModule, NgForm } from '@angular/forms';
+import { Router } from '@angular/router';
 
 import { RegisterData } from '../../interfaces/register-data.interface';
 import { AuthService } from '../../services/auth.service';
@@ -26,7 +27,8 @@ export class RegisterComponent {
   errorMessages: string[] = [];
 
   constructor(
-    private authService: AuthService
+    private authService: AuthService,
+    private router: Router
   ) { }
 
   validateEmail() {
@@ -66,9 +68,13 @@ export class RegisterComponent {
       this.authService.register(this.data).subscribe({
         next: (response) => {
           console.log(response);
+          this.router.navigate(['/login']).then(navigator => {
+            if (!navigator)
+              console.log('Erreur lors de la redirection vers la page de connexion.');
+          });
         },
         error: (err) => {
-          console.log('Erreur lors de l’inscription :', err);
+          this.errorMessages.length === 0 ? this.errorMessages.push(err.message) : null;
         }
       });
     } else {
