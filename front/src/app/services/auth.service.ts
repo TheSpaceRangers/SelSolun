@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
-import { catchError, throwError } from 'rxjs';
+import { BehaviorSubject, catchError, Observable, throwError } from 'rxjs';
 
 import { environment } from '../../environments/environment';
 import { RegisterData } from '../interfaces/register-data.interface';
@@ -12,6 +12,8 @@ import { LoginData } from '../interfaces/login-data.interface';
 })
 export class AuthService {
   private api_url: string = environment.api_url + 'api/v1/auth';
+
+  private authStatus = new BehaviorSubject<boolean>(false);
 
   constructor(
     private http: HttpClient
@@ -49,5 +51,19 @@ export class AuthService {
         return throwError(() => new Error(error.error?.error_message || 'Une erreur inattendue s’est produite.'));
       })
     );
+  }
+
+  get isAuthenticated(): Observable<boolean> {
+    return this.authStatus.asObservable();
+  }
+
+  loginIn(token: string) {
+    localStorage.setItem('auth_token', token);
+    this.authStatus.next(true);
+  }
+
+  logout() {
+    localStorage.removeItem('auth_token');
+    this.authStatus.next(false);
   }
 }
