@@ -29,13 +29,17 @@ export class LoginComponent {
   ) { }
 
   onSubmit(login: NgForm) {
+    this.errorMessages = [];
+
     if (login.valid && this.errorMessages.length === 0) {
       this.authService.login(this.data).subscribe({
         next: (response) => {
-          console.log(response);
+          const token = response.body?.token;
+          if (token)
+            this.authService.loginIn(token)
         },
         error: (err) => {
-          console.log('Erreur lors de la connexion :', err);
+          this.errorMessages.length === 0 ? this.errorMessages.push(err.message) : null;
         }
       });
     } else {
