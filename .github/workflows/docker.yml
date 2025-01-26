@@ -47,3 +47,5 @@ jobs:
         run: |
           docker build -t ${{ secrets.DOCKER_USERNAME }}/selsolun-front:latest ./front
           docker push ${{ secrets.DOCKER_USERNAME }}/selsolun-front:latest
+
+# TEST
