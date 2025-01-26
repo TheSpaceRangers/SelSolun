@@ -1,0 +1,77 @@
+name: Build and Deploy Docker Images
+
+on:
+  push:
+    branches:
+      - 'features/**'
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  build-angular:
+    name: Build and Publish Angular Docker Image
+    runs-on: ubuntu-24.04
+    steps:
+      # Étape 1 : Checkout du code
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.ACCESS_TOKEN }}
+
+      # Étape 2 : Configurer Node.js
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+
+      # Étape 3 : Installer les dépendances
+      - name: Install dependencies
+        working-directory: ./front
+        run: npm install
+
+      # Étape 4 : Build de l'application Angular
+      - name: Build Angular app
+        working-directory: ./front
+        run: npm run build --prod
+
+      # Étape 5 : Configurer Docker
+      - name: Login to Docker Hub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+      # Étape 6 : Construire et publier l'image Docker pour Angular
+      - name: Build and Push Angular Docker Image
+        run: |
+          docker build -t ${{ secrets.DOCKER_USERNAME }}/selsolun-front:latest ./front
+          docker push ${{ secrets.DOCKER_USERNAME }}/selsolun-front:latest
+
+  build-spring-boot:
+    name: Build and Publish Spring Boot Docker Image
+    runs-on: ubuntu-24.04
+
+    steps:
+      # Étape 1 : Checkout du code
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      # Étape 2 : Configurer JDK pour Gradle
+      - name: Setup JDK
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'zulu'
+          java-version: '17'
+
+      # Étape 3 : Construire et publier l'image Docker avec Buildpacks
+      - name: Build and Push Spring Boot Docker Image
+        working-directory: ./back
+        env:
+          DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+          DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+        run: |
+          chmod +x ./gradlew
+          ./gradlew bootBuildImage
+
+# TEST
