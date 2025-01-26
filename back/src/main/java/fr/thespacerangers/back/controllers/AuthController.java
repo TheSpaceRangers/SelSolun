@@ -1,5 +1,7 @@
 package fr.thespacerangers.back.controllers;
 
+import fr.thespacerangers.back.dto.auth.LoginRequest;
+import fr.thespacerangers.back.dto.auth.LoginResponse;
 import fr.thespacerangers.back.dto.auth.RegisterRequest;
 import fr.thespacerangers.back.services.interfaces.IAuthService;
 
@@ -24,5 +26,13 @@ public class AuthController {
     ) {
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(this.authService.register(request));
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<LoginResponse> login(
+            @RequestBody LoginRequest request
+    ) {
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(this.authService.login(request));
     }
 }
