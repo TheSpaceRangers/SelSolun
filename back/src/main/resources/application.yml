@@ -1,20 +1,20 @@
 server:
-  port: ${APP_PORT:8080}
+  port: ${SERVER_PORT:8080}
 
 spring:
   application:
     name: ${APP_NAME:api-selsolun}
 
   datasource:
-    url: ${DATA_URL:jdbc:mysql://192.168.1.101:3306/crypto_app}
-    username: ${DATA_USERNAME:root}
-    password: ${DATA_PASSWORD:root_password}
+    url: jdbc:mysql://${DB_HOST:192.168.1.101}:${DB_PORT:3306}/${DB_NAME:crypto_app}
+    username: ${DB_USERNAME:root}
+    password: ${DB_PASSWORD:root_password}
     driver-class-name: com.mysql.cj.jdbc.Driver
 
   jpa:
     hibernate:
-      ddl-auto: ${DATA_DDL_AUTO:none}
-    show-sql: ${DATA_SHOW_SQL:false}
+      ddl-auto: ${JPA_DDL_AUTO:none}
+    show-sql: ${JPA_SHOW_SQL:false}
     properties:
       hibernate:
         dialect: org.hibernate.dialect.MySQLDialect
@@ -22,4 +22,4 @@ spring:
 
 application:
   security:
-    allowed-origins: http://localhost:4200
+    allowed-origins: ${ALLOWED_ORIGINS:http://localhost:4200}
