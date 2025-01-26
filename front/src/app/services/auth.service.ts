@@ -33,7 +33,11 @@ export class AuthService {
     ).pipe(
       catchError(error => {
         console.error('Erreur dans le service:', error);
-        return throwError(() => new Error(error.error?.error_message || 'Une erreur inattendue s’est produite.'));
+        return throwError(() => ({
+          status: error.status,
+          message: error.error || 'Une erreur inattendue s’est produite.',
+          fullError: error
+        }));
       })
     );
   }
