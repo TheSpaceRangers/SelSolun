@@ -25,8 +25,6 @@ export class HeaderComponent implements OnInit {
 
   @HostListener('window:resize', [])
   checkScreenSize(): void {
-    this.isDesktop = window.innerWidth >= 1024; // 768px est le seuil pour passer en mode mobile
-    console.log(this.isDesktop);
-    console.log(window.innerWidth);
+    this.isDesktop = window.innerWidth >= 1024;
   }
 }
