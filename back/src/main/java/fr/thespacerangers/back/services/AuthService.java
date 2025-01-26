@@ -54,7 +54,7 @@ public class AuthService implements IAuthService {
 
     @Override
     public String login(LoginRequest request) {
-        final User user = this.userRepository.findByEmail(request.email())
+        this.userRepository.findByEmail(request.email())
                 .orElseThrow(() -> new InvalidCredentialsException("error.authentication.invalid-credentials"));
 
         try {
