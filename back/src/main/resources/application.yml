@@ -23,3 +23,6 @@ spring:
 application:
   security:
     allowed-origins: ${ALLOWED_ORIGINS:http://localhost:4200,http://192.168.1.101:4200}
+    jwt:
+      secret-key: ${JWT_KEY:MFqyJ6N56N3OtSwplTcfI/nxne0NVcyNAZ2F9dru+EI=}
+      expiration: ${JWT_EXPIRATION:86400000}
